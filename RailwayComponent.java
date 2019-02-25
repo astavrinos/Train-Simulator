@@ -1,4 +1,4 @@
 
-public interface RailwayComponent {
-
+public class RailwayComponent {
+	
 }

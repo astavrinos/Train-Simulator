@@ -9,4 +9,14 @@
  */
 public class Station {
 
+	int length = 0;
+	int capacity = 0;
+	
+	public Station(int length, int capacity) {
+		super();
+		this.length = length;
+		this.capacity = capacity;
+		
+	}
+
 }
