@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Station and Track
  */
 
-public class RailwayComponent {
+public class Railway {
 
 	protected String name;
 	protected int capacity;

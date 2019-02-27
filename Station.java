@@ -7,7 +7,7 @@
  * 
  * Each stop in the stations can last up to 5 seconds.
  */
-public class Station extends RailwayComponent {
+public class Station extends Railway {
 
 	final int length = 100;
 

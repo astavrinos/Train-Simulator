@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 /*
@@ -5,8 +6,11 @@ import java.util.Random;
  */
 public class Controller implements Runnable {
 	Thread threadList = new Thread();
+	Track track = new Track();
 	protected String trainName;
 	protected int trainID;
+
+	ArrayList<Integer> activeTrains = new ArrayList<Integer>();
 
 	/*
 	 * (non-Javadoc)
@@ -28,12 +32,12 @@ public class Controller implements Runnable {
 			threadList.setName("Train" + trainID);
 			// Set the assigned name of the train
 			setTrainName(threadList.getName());
-			// Print the name just to make sure
-			System.out.println(threadList.getName());
 			// Now go to run()
 			threadList.start();
-			// No go to assignTrainModel()
+			// Now go to assignTrainModel()
 			assignTrainModel();
+			// Now show the route
+			routeView();
 			// Sleep thread for 2 seconds
 			try {
 				Thread.sleep(2000);
@@ -41,7 +45,7 @@ public class Controller implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // End of try-catch
-				// Increment i by one
+				// Increment trainID by one
 			trainID++;
 		} // End of while loop
 	}// End of createThreads()
@@ -58,14 +62,19 @@ public class Controller implements Runnable {
 		int n = rand.nextInt(2);
 
 		if (n == 0) {
-			System.out.println("Local train is here.");
+			activeTrains.add(getTrainID());
 			LocalTrain localTrain = new LocalTrain(getTrainName(), getTrainID());
-
 		} else if (n == 1) {
-			System.out.println("Express train is here.");
+			activeTrains.add(getTrainID());
 			ExpressTrain expressTrain = new ExpressTrain(getTrainName(), getTrainID());
 		} // End of else-if
 	}// End of assignTrainModel()
+
+	private void routeView() {
+		String leftAlignFormat = "|---%-7s---||---%-5s---||---%-8s---||---%-5s---||---%-5s---||---%-5s---||---%-8s---|%n";
+		System.out.format(leftAlignFormat, RunMe.route[0].getName(), track.getName(), RunMe.route[2].getName(),
+				track.getName(), RunMe.route[4].getName(), track.getName(), RunMe.route[6].getName());
+	}
 
 	/*
 	 * Setters and Getters

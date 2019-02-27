@@ -5,7 +5,7 @@
  */
 public class LocalTrain extends Train {
 
-	private final int localTrainSpeed = 10;
+	private final int speed = 10;
 	private String localTrainName;
 	private int trainID;
 
@@ -26,7 +26,7 @@ public class LocalTrain extends Train {
 	}
 
 	public int getLocalTrainSpeed() {
-		return localTrainSpeed;
+		return speed;
 	}
 
 	public int getTrainID() {
