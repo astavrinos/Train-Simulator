@@ -7,16 +7,16 @@ public class LocalTrain extends Train {
 
 	private final int localTrainSpeed = 10;
 	private String localTrainName;
+	private int trainID;
 
-	public LocalTrain(String localTrainName) {
+	public LocalTrain(String localTrainName, int trainID) {
 		this.setLocalTrainName(localTrainName);
-		assignLocalTrainToStation(getLocalTrainName(), localTrainSpeed);
+		this.setTrainID(trainID);
 	}
 
-	public void assignLocalTrainToStation(String localTrainName, int localTrainSpeed) {
-		// TODO ASSIGN STATION
-	}
-
+	/*
+	 * Getters and Setters
+	 */
 	public String getLocalTrainName() {
 		return localTrainName;
 	}
@@ -27,6 +27,14 @@ public class LocalTrain extends Train {
 
 	public int getLocalTrainSpeed() {
 		return localTrainSpeed;
+	}
+
+	public int getTrainID() {
+		return trainID;
+	}
+
+	public void setTrainID(int trainID) {
+		this.trainID = trainID;
 	}
 
 }

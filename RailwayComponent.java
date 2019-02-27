@@ -1,32 +1,44 @@
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+/*
+ * RailwayComponent is the parent of
+ * Station and Track
+ */
 
 public class RailwayComponent {
 
-	private String stationName;
-	private int stationCapacity;
+	protected String name;
+	protected int capacity;
+	protected int length;
 
-	public RailwayComponent(String stationName, int stationCapacity) {
-		setStationName(stationName);
-		setStationCapacity(stationCapacity);
+	/*
+	 * Getters and Setters
+	 */
+
+	public String getName() {
+		return name;
 	}
 
-	public void assignTrainToRoute() {
-
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getStationName() {
-		return stationName;
+	public int getCapacity() {
+		return capacity;
 	}
 
-	public void setStationName(String stationName) {
-		this.stationName = stationName;
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
 	}
 
-	public int getStationCapacity() {
-		return stationCapacity;
+	public int getLength() {
+		return length;
 	}
 
-	public void setStationCapacity(int stationCapacity) {
-		this.stationCapacity = stationCapacity;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 }

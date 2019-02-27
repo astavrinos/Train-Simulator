@@ -5,12 +5,9 @@ import java.util.Random;
  */
 public class Controller implements Runnable {
 	Thread threadList = new Thread();
+	protected String trainName;
+	protected int trainID;
 
-	int[] stationCapacity = new int[] { 3, 2, 2 };
-	String[] stationName = new String[] { "Glasgow", "Stirling", "Inverness" };
-
-	protected String trainName;	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -24,12 +21,11 @@ public class Controller implements Runnable {
 	 * Create threads
 	 */
 	public void createThreads() {
-		int i = 0;
 
 		// create multiple threads with while loop
 		while (true) {
 			threadList = new Thread();
-			threadList.setName("Train" + i);
+			threadList.setName("Train" + trainID);
 			// Set the assigned name of the train
 			setTrainName(threadList.getName());
 			// Print the name just to make sure
@@ -45,8 +41,8 @@ public class Controller implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // End of try-catch
-			// Increment i by one
-			i++;
+				// Increment i by one
+			trainID++;
 		} // End of while loop
 	}// End of createThreads()
 
@@ -55,14 +51,6 @@ public class Controller implements Runnable {
 	 */
 	public void assignTrainModel() {
 
-		RailwayComponent[] route = new RailwayComponent[5];
-		route[0] = new Station("Glasgow", 3);
-		route[1] = new Track();
-		route[2] = new Station("Stirling", 2);
-		route[3] = new Track();
-		route[4] = new Station("Iverness", 2);
-		Train.route = route;
-		
 		/*
 		 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain
 		 */
@@ -71,11 +59,11 @@ public class Controller implements Runnable {
 
 		if (n == 0) {
 			System.out.println("Local train is here.");
-			LocalTrain localTrain = new LocalTrain(getTrainName());
-			
+			LocalTrain localTrain = new LocalTrain(getTrainName(), getTrainID());
+
 		} else if (n == 1) {
 			System.out.println("Express train is here.");
-			ExpressTrain expressTrain = new ExpressTrain(getTrainName());
+			ExpressTrain expressTrain = new ExpressTrain(getTrainName(), getTrainID());
 		} // End of else-if
 	}// End of assignTrainModel()
 
@@ -88,6 +76,14 @@ public class Controller implements Runnable {
 
 	public void setTrainName(String trainName) {
 		this.trainName = trainName;
+	}
+
+	public int getTrainID() {
+		return trainID;
+	}
+
+	public void setTrainID(int trainID) {
+		this.trainID = trainID;
 	}
 
 }

@@ -7,16 +7,16 @@ public class ExpressTrain extends Train {
 
 	private final int expressTrainSpeed = 500;
 	private String expressTrainName;
+	private int trainID;
 
-	public ExpressTrain(String trainName) {
+	public ExpressTrain(String trainName, int trainID) {
 		this.setExpressTrainName(trainName);
-		assignExpressTrainToStation(getExpressTrainName(), expressTrainSpeed);
+		this.trainID = trainID;
 	}
 
-	public void assignExpressTrainToStation(String expressTrainName, int expressTrainSpeed) {
-		// TODO ASSIGN STATION
-	}
-
+	/*
+	 * Getters and Setters
+	 */
 	public String getExpressTrainName() {
 		return expressTrainName;
 	}
@@ -27,6 +27,14 @@ public class ExpressTrain extends Train {
 
 	public int getExpressTrainSpeed() {
 		return expressTrainSpeed;
+	}
+
+	public int getTrainID() {
+		return trainID;
+	}
+
+	public void setTrainID(int trainID) {
+		this.trainID = trainID;
 	}
 
 }

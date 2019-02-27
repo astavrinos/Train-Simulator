@@ -3,10 +3,6 @@ public class Train {
 
 	public static RailwayComponent[] route;
 	protected int speed = 0;
-	
-	public Train() {
-
-	}
 
 	public int getSpeed() {
 		return speed;
@@ -15,5 +11,5 @@ public class Train {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
+
 }
