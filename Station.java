@@ -7,16 +7,12 @@
  * 
  * Each stop in the stations can last up to 5 seconds.
  */
-public class Station {
+public class Station extends RailwayComponent {
 
-	int length = 0;
-	int capacity = 0;
-	
-	public Station(int length, int capacity) {
-		super();
-		this.length = length;
-		this.capacity = capacity;
-		
+	public Station(String stationName, int stationCapacity) {
+		super(stationName, stationCapacity);
+		// TODO Auto-generated constructor stub
 	}
+	
 
 }
