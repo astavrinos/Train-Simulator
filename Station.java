@@ -9,12 +9,17 @@
  */
 public class Station extends Railway {
 
-	final int length = 100;
-
-	public Station(String name, int capacity) {
-		this.name = name;
-		this.capacity = capacity;
+	public Station(String n, int c) {
+		super(n, c);
 		// TODO Auto-generated constructor stub
 	}
+
+	final int length = 100;
+
+//	public Station(String name, int capacity) {
+//		this.name = name;
+//		this.capacity = capacity;
+//		// TODO Auto-generated constructor stub
+//	}
 
 }

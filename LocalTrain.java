@@ -7,11 +7,15 @@ public class LocalTrain extends Train {
 
 	private final int speed = 10;
 	private String localTrainName;
-	private int trainID;
 
+	Station station = new Station(localTrainName, speed);
 	public LocalTrain(String localTrainName, int trainID) {
 		this.setLocalTrainName(localTrainName);
 		this.setTrainID(trainID);
+	}
+	
+	public void asignToStation() {
+
 	}
 
 	/*

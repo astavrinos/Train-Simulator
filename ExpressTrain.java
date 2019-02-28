@@ -8,7 +8,7 @@ public class ExpressTrain extends Train {
 	private final int expressTrainSpeed = 500;
 	private String expressTrainName;
 	Controller controller = new Controller();
-	private int trainID;
+	
 
 	public ExpressTrain(String trainName, int trainID) {
 		this.setExpressTrainName(trainName);

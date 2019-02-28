@@ -12,11 +12,11 @@ public class RunMe {
 	public static void main(String[] args) {
 
 		route[0] = new Station("Glasgow", 3);
-		route[1] = new Track();
+		route[1] = new Track("Track", 1);
 		route[2] = new Station("Stirling", 2);
-		route[3] = new Track();
+		route[3] = new Track("Track", 1);
 		route[4] = new Station("Perth", 2);
-		route[5] = new Track();
+		route[5] = new Track("Track", 1);
 		route[6] = new Station("Inverness", 2);
 		Train.route = route;
 

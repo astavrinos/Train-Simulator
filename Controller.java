@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /*
@@ -6,11 +7,9 @@ import java.util.Random;
  */
 public class Controller implements Runnable {
 	Thread threadList = new Thread();
-	Track track = new Track();
-	protected String trainName;
-	protected int trainID;
-
-	ArrayList<Integer> activeTrains = new ArrayList<Integer>();
+	Railway rail = new Railway("mlm", 2);
+	
+	Railway[] thisRoute = RunMe.route;
 
 	/*
 	 * (non-Javadoc)
@@ -25,17 +24,20 @@ public class Controller implements Runnable {
 	 * Create threads
 	 */
 	public void createThreads() {
+		rail.foua();
 
 		// create multiple threads with while loop
 		while (true) {
-			threadList = new Thread();
-			threadList.setName("Train" + trainID);
-			// Set the assigned name of the train
-			setTrainName(threadList.getName());
+
+//			trainName = "Train" + trainID;
+
+			Train thomas = rail.assignTrainModel();
+			// Train thomas = new Train();
+			threadList = new Thread(thomas);
+
 			// Now go to run()
 			threadList.start();
-			// Now go to assignTrainModel()
-			assignTrainModel();
+
 			// Now show the route
 			routeView();
 			// Sleep thread for 2 seconds
@@ -46,53 +48,41 @@ public class Controller implements Runnable {
 				e.printStackTrace();
 			} // End of try-catch
 				// Increment trainID by one
-			trainID++;
+			rail.trainID++;
 		} // End of while loop
 	}// End of createThreads()
 
 	/*
 	 * Assign the train model randomly
 	 */
-	public void assignTrainModel() {
 
-		/*
-		 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain
-		 */
-		Random rand = new Random();
-		int n = rand.nextInt(2);
-
-		if (n == 0) {
-			activeTrains.add(getTrainID());
-			LocalTrain localTrain = new LocalTrain(getTrainName(), getTrainID());
-		} else if (n == 1) {
-			activeTrains.add(getTrainID());
-			ExpressTrain expressTrain = new ExpressTrain(getTrainName(), getTrainID());
-		} // End of else-if
-	}// End of assignTrainModel()
 
 	private void routeView() {
 		String leftAlignFormat = "|---%-7s---||---%-5s---||---%-8s---||---%-5s---||---%-5s---||---%-5s---||---%-8s---|%n";
-		System.out.format(leftAlignFormat, RunMe.route[0].getName(), track.getName(), RunMe.route[2].getName(),
-				track.getName(), RunMe.route[4].getName(), track.getName(), RunMe.route[6].getName());
+		System.out.format(leftAlignFormat, RunMe.route[0].getName() + "--" + rail.iliketrains[0], RunMe.route[1].getName(),
+				RunMe.route[2].getName(), RunMe.route[3].getName(), RunMe.route[4].getName(), RunMe.route[5].getName(),
+				RunMe.route[6].getName());
 	}
+
+
 
 	/*
 	 * Setters and Getters
 	 */
-	public String getTrainName() {
-		return trainName;
-	}
-
-	public void setTrainName(String trainName) {
-		this.trainName = trainName;
-	}
-
-	public int getTrainID() {
-		return trainID;
-	}
-
-	public void setTrainID(int trainID) {
-		this.trainID = trainID;
-	}
+//	public String getTrainName() {
+//		return trainName;
+//	}
+//
+//	public void setTrainName(String trainName) {
+//		this.trainName = trainName;
+//	}
+//
+//	public int getTrainID() {
+//		return trainID;
+//	}
+//
+//	public void setTrainID(int trainID) {
+//		this.trainID = trainID;
+//	}
 
 }
