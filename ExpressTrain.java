@@ -7,19 +7,12 @@ public class ExpressTrain extends Train {
 
 	private final int expressTrainSpeed = 500;
 	private String expressTrainName;
-	Controller controller = new Controller();
-	
 
-	public ExpressTrain(String trainName, int trainID) {
-		this.setExpressTrainName(trainName);
-		this.trainID = trainID;
-//		assignToStation();
+	public ExpressTrain(int trainID) {
+		super(500);
+		Train.trainID = trainID;
 	}
 
-	public void assignToStation() {
-		System.out.println(controller.activeTrains.get(controller.activeTrains.size()-1));
-	}
-	
 	/*
 	 * Getters and Setters
 	 */
@@ -33,14 +26,6 @@ public class ExpressTrain extends Train {
 
 	public int getExpressTrainSpeed() {
 		return expressTrainSpeed;
-	}
-
-	public int getTrainID() {
-		return trainID;
-	}
-
-	public void setTrainID(int trainID) {
-		this.trainID = trainID;
 	}
 
 }

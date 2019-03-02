@@ -8,52 +8,81 @@ import java.util.concurrent.locks.ReentrantLock;
  * Station and Track
  */
 
-public class Railway {
+public class Railway extends Controller {
 
-	ArrayList<Integer>[] iliketrains = new ArrayList[7];
-	ArrayList<Integer> activeTrains = new ArrayList<Integer>();
-	
-	protected String name;
-	protected int capacity;
-	protected int length;
-	
+	public ArrayList<Integer> activeTrains = new ArrayList<Integer>();
+	private ReentrantLock lock = new ReentrantLock();
+	private Condition condition = lock.newCondition();
+
+	Train train = new Train(0);
+
+	protected String name; // Used for this constructor
+	protected int capacity; // Used for this constructor
+	protected int length; // Used in train
+
 	protected String trainName;
-	protected int trainID = 0;
-	
+
 	public Railway(String n, int c) {
 		name = n;
 		capacity = c;
 	}
 
+	/*
+	 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain
+	 */
+	@SuppressWarnings("boxing")
 	public Train assignTrainModel() {
 
-		/*
-		 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain
-		 */
 		Random rand = new Random();
 		int n = rand.nextInt(2);
 
-		if (n == 0 && (iliketrains[0] == null || iliketrains[0].size() < RunMe.route[0].capacity)) {
-			activeTrains.add(trainID);
-			iliketrains[0].add(trainID);
-			LocalTrain localTrain = new LocalTrain(trainName, trainID);
+		if (n == 0) {
+			activeTrains.add(Train.trainID);
+//			System.out.println(Train.trainID);
+			trainsInStation[0].add(Train.trainID);
+			LocalTrain localTrain = new LocalTrain(Train.trainID);
+			localTrain.current = 0;
 			return localTrain;
-			
-		} else if (n == 1 && (iliketrains[0] == null || iliketrains[0].size() < RunMe.route[0].capacity)) {
-			activeTrains.add(trainID);
-			iliketrains[0].add(trainID);
-			ExpressTrain expressTrain = new ExpressTrain(trainName, trainID);
+		} else if (n == 1) {
+			activeTrains.add(Train.trainID);
+			trainsInStation[0].add(Train.trainID);
+			ExpressTrain expressTrain = new ExpressTrain(Train.trainID);
+			expressTrain.current = 0;
 			return expressTrain;
 		} // End of else-if
 		return null;
 	}// End of assignTrainModel()
-	
-	public void foua() {
-		for (int i = 0; i < iliketrains.length; i++) {
-			iliketrains[i] = new ArrayList<Integer>();
+
+	/*
+	 * Remove train from route indicated value
+	 */
+	public void removeTrain(Train train) {
+		lock.lock();
+		try {
+			condition.await();
+			trainsInStation[train.getCurrent() - 1].remove(new Integer(Train.trainID));
+			route[0].setCapacity(capacity + 1);
+		} catch (InterruptedException e) {
+
+		} finally {
+			lock.unlock();
 		}
 	}
-	
+
+	/*
+	 * Add a train to the indicated value
+	 */
+	@SuppressWarnings("boxing")
+	public void addTrain(Train train) {
+		lock.lock();
+		if (trainsInStation[1].size() > route[1].getCapacity()) {
+			trainsInStation[(train.getCurrent() + 1)].add(Train.trainID);
+			condition.signalAll();
+		}
+		lock.unlock();
+		train.setCurrent(train.current + 1);
+	}
+
 	/*
 	 * Getters and Setters
 	 */
@@ -81,13 +110,5 @@ public class Railway {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
-	/*
-	 * method for ADDING A TRAIN
-	 */
-	
-	/*
-	 * method for TRAIN LEAVING
-	 */
 
 }

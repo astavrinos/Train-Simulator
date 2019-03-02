@@ -11,11 +11,9 @@ public class Track extends Railway {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	final int length = 1000;
 	final int capacity = 1;
 
-	
 	public String getName() {
 		return name;
 	}
