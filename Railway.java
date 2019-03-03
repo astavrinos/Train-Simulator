@@ -1,53 +1,39 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-/*
- * RailwayComponent is the parent of
- * Station and Track
- */
+public class Railway {
 
-public class Railway extends Controller {
-
-	public ArrayList<Integer> activeTrains = new ArrayList<Integer>();
 	private ReentrantLock lock = new ReentrantLock();
 	private Condition condition = lock.newCondition();
 
-	Train train = new Train(0);
-
-	protected String name; // Used for this constructor
-	protected int capacity; // Used for this constructor
-	protected int length; // Used in train
-
-	protected String trainName;
+	protected String name;
+	protected int capacity;
+	protected int length;
 
 	public Railway(String n, int c) {
 		name = n;
 		capacity = c;
-	}
+	}// End of constructor
 
 	/*
-	 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain
+	 * Create random numbers from 0 to 1. 0 = localTrain 1 = expressTrain and add
+	 * train to the first station
 	 */
 	@SuppressWarnings("boxing")
-	public Train assignTrainModel() {
-
+	public Train assignTrainModel(int IDcounter) {
 		Random rand = new Random();
 		int n = rand.nextInt(2);
 
 		if (n == 0) {
-			activeTrains.add(Train.trainID);
-//			System.out.println(Train.trainID);
-			trainsInStation[0].add(Train.trainID);
-			LocalTrain localTrain = new LocalTrain(Train.trainID);
-			localTrain.current = 0;
+			Controller.trainsInStation[0].add(IDcounter);
+			LocalTrain localTrain = new LocalTrain(IDcounter);
+			localTrain.setCurrent(0);
 			return localTrain;
 		} else if (n == 1) {
-			activeTrains.add(Train.trainID);
-			trainsInStation[0].add(Train.trainID);
-			ExpressTrain expressTrain = new ExpressTrain(Train.trainID);
-			expressTrain.current = 0;
+			Controller.trainsInStation[0].add(IDcounter);
+			ExpressTrain expressTrain = new ExpressTrain(IDcounter);
+			expressTrain.setCurrent(0);
 			return expressTrain;
 		} // End of else-if
 		return null;
@@ -59,15 +45,13 @@ public class Railway extends Controller {
 	public void removeTrain(Train train) {
 		lock.lock();
 		try {
-			condition.await();
-			trainsInStation[train.getCurrent() - 1].remove(new Integer(Train.trainID));
-			route[0].setCapacity(capacity + 1);
-		} catch (InterruptedException e) {
-
+			Controller.trainsInStation[train.getCurrent() - 1].remove(Integer.valueOf(train.trainID));
+			Controller.route[train.current - 1].setCapacity(capacity++);
+			condition.signalAll();
 		} finally {
 			lock.unlock();
-		}
-	}
+		} // End of try/finally
+	}// End of removeTrain()
 
 	/*
 	 * Add a train to the indicated value
@@ -75,24 +59,24 @@ public class Railway extends Controller {
 	@SuppressWarnings("boxing")
 	public void addTrain(Train train) {
 		lock.lock();
-		if (trainsInStation[1].size() > route[1].getCapacity()) {
-			trainsInStation[(train.getCurrent() + 1)].add(Train.trainID);
-			condition.signalAll();
-		}
-		lock.unlock();
-		train.setCurrent(train.current + 1);
-	}
+		try {
+			while (Controller.trainsInStation[train.getCurrent()].size() == Controller.route[train.getCurrent()]
+					.getCapacity()) {
+				condition.await();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
+			Controller.trainsInStation[(train.getCurrent())].add(train.trainID);
+		} // End of try/catch/finally
+	}// End of addTrain()
 
 	/*
 	 * Getters and Setters
 	 */
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getCapacity() {
@@ -107,8 +91,4 @@ public class Railway extends Controller {
 		return length;
 	}
 
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-}
+}// End of Railway

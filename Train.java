@@ -1,64 +1,39 @@
 public class Train implements Runnable {
 
-	public static Railway[] route;
-	public int current = getCurrent();
+	public int current;
 	protected int speed;
 	protected int time;
-	protected static int trainID;
+	protected int trainID;
 
 	public Train(int speed) {
 		this.speed = speed;
-	}
+	}// End of constructor
 
 	@Override
 	public void run() {
-
 		try {
-			boolean status = true;
-			while (status) {
-				Controller.route[current + 1].addTrain(this);
-//				System.out.println("Added");
-				Controller.route[current].removeTrain(this);
-//				System.out.println("removed");
-				Thread.sleep((int) (1000 * countdown()));
-			}
+			while (true) {
+				if (Controller.route[current].getLength() == 1000) {
+					Thread.sleep((Controller.route[current].getLength() / speed) * 1000);
+				} else if (Controller.route[current].getLength() == 100) {
+					Thread.sleep((Controller.route[current].getLength() / speed + 5) * 1000);
+				}// End of if else if
+				current++;
+				if (current == 7) {
+					Controller.route[getCurrent() - 1].removeTrain(this);
+					break;
+				}// End of if
+				Controller.route[getCurrent()].addTrain(this);
+				Controller.route[getCurrent() - 1].removeTrain(this);
+			}// End of while loop
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public int countdown() {
-		while (current < Controller.route.length) {
-			// move the train forward in each iteration
-			time = Controller.route[current].getLength() / speed + 5;
-			try {
-				Thread.sleep(time * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		return time;
-	}
+		}// End of try/catch
+	}// End of run()
 
 	/*
 	 * Getters and Setters
 	 */
-	public int getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-	public int getTime() {
-		return time;
-	}
-
-	public void setTime(int time) {
-		this.time = time;
-	}
-
 	public int getCurrent() {
 		return current;
 	}
@@ -67,4 +42,4 @@ public class Train implements Runnable {
 		this.current = current;
 	}
 
-}
+}// End of Train
