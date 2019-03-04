@@ -6,7 +6,7 @@
  * 
  * Student: Adamos Stavrinos
  */
-public class RunMe {
+public class Runme {
 
 	public static void main(String[] args) {
 		Controller controller = new Controller();
