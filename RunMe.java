@@ -1,9 +1,10 @@
 /*
- * Adamos Stavrinos
  * Advance Programming, Asset Exercise 1, 2019
  * 
  * Simulation of Trains and Tracks
  * by Professor Simon Rogers
+ * 
+ * Student: Adamos Stavrinos
  */
 public class RunMe {
 
